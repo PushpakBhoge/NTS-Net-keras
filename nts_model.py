@@ -213,12 +213,13 @@ def get_nts_net(batch_size=2):
                           # input_tensor=img_input,
                           # input_shape=input_shape,
                           pooling="avg")
-    layer_dict = {}
-    for layer in base_model.layers:
-        layer_dict[layer.name] = layer
-    # g = base_model(img_input)
-    global_conv_outputs = layer_dict['activation_49'].output
-    # global_conv_outputs = layer_dict['block5_conv3'].output
+    """layer_dict = {}
+                for layer in base_model.layers:
+                    layer_dict[layer.name] = layer
+                # g = base_model(img_input)
+                global_conv_outputs = layer_dict['activation_49'].output
+                # global_conv_outputs = layer_dict['block5_conv3'].output"""
+    global_conv_outputs = base_model.layers[-2].output
     base_model_1 = Model(inputs=base_model.input, outputs=global_conv_outputs, name='resnet50')  # shared model
     global_conv_outputs = base_model_1(img_input)
     global_features = GlobalAveragePooling2D()(global_conv_outputs)
